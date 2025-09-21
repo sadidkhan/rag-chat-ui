@@ -37,9 +37,9 @@ const App: React.FC = () => {
 
       {/* Hamburger menu for mobile */}
       <button
-        className={`absolute top-4 left-4 z-30 md:hidden bg-slate-800 text-white p-2 rounded shadow transition-opacity ${sidebarOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-        onClick={() => setSidebarOpen(true)}
-        aria-label="Open sidebar"
+        className="absolute top-4 left-4 z-40 bg-slate-800 text-white p-2 rounded shadow"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-label="Toggle sidebar"
       >
         {/* Hamburger icon SVG */}
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>

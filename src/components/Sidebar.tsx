@@ -11,13 +11,13 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, uploadedFiles, selectedFiles, handleFileSelect, handleUpload }) => (
-  <aside className={`bg-gradient-to-b from-slate-800 to-slate-700 text-white w-64 p-6 flex flex-col transition-transform duration-300 fixed h-full z-20 border-r border-slate-600 shadow-xl ${sidebarOpen ? 'left-0' : '-left-64'} md:static md:left-0 md:block`}>
-    <div className="flex items-center justify-between mb-6">
-      <span className="font-bold text-xl tracking-wide">Menu</span>
-      <button className="md:hidden" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
-        {/* Close icon SVG */}
+  <aside className={`bg-gradient-to-b from-slate-800 to-slate-700 text-white w-64 p-6 flex flex-col transition-transform duration-300 fixed h-full z-20 border-r border-slate-600 shadow-xl ${sidebarOpen ? 'left-0' : '-left-64'}`}>
+    <div className="flex items-center gap-3 mb-6">
+      <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar" className="">
+        {/* Hamburger/close icon SVG */}
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
+      <span className="font-bold text-xl tracking-wide">Menu</span>
     </div>
     <div className="mb-6 bg-slate-700 rounded-lg p-4 border border-slate-600">
       <label className="block mb-2 font-medium text-slate-200">Upload File</label>
