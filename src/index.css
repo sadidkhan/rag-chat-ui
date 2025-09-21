@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.chat-container {
+  @apply flex flex-col h-screen p-4;
+}
+
+.messages {
+  @apply flex-1 overflow-y-auto p-2;
+}
+
+.input-area {
+  @apply flex items-center mt-4;
+}
+
+.input-field {
+  @apply flex-1 border rounded-lg p-2 mr-2;
+}
+
+.send-button {
+  @apply bg-blue-500 text-white rounded-lg px-4 py-2;
+}
