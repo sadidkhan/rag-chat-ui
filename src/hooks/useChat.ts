@@ -1,37 +1,46 @@
 
 import { useState } from 'react';
+import { sendChatMessage } from '../lib/api';
+import { ChatMessageDTO, ChatRequest, ChatResponse } from '../types';
 
 export interface ChatMessage {
+    id?: string | null;
     content: string;
-    sender: 'user' | 'bot';
+    sender: 'user' | 'assistant';
 }
 
 const useChat = () => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const sendMessage = async (content: string) => {
-        const newMessage: ChatMessage = { content, sender: 'user' };
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        const userMessage: ChatMessage = { content, sender: 'user' };
+        setMessages((prevMessages) => [...prevMessages, userMessage]);
+        setLoading(true);
+        setError(null);
 
-        // Simulate sending the message to a language model and receiving a reply
-        const reply = await getReplyFromLanguageModel(content);
-        const replyMessage: ChatMessage = { content: reply, sender: 'bot' };
-        setMessages((prevMessages) => [...prevMessages, replyMessage]);
+        try {
+            const history: ChatMessageDTO[] = messages.map((m) => ({
+                role: m.sender,
+                content: m.content,
+            }));
+
+            const request: ChatRequest = { message: content, history };
+            const response: ChatResponse = await sendChatMessage(request);
+            const assistantMessage: ChatMessage = { content: response.reply, sender: 'assistant' };
+            setMessages((prevMessages) => [...prevMessages, assistantMessage]);
+        } catch (error) {
+            console.error(error);
+            setMessages((prevMessages) => [...prevMessages, { content: "Failed to send message", sender: "assistant" }]);
+            setError("Failed to send message");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const getReplyFromLanguageModel = async (content: string) => {
-        // Placeholder for actual API call to the language model
-        return new Promise<string>((resolve) => {
-            setTimeout(() => {
-                resolve(`Reply to: ${content}`);
-            }, 1000);
-        });
-    };
+    return { messages, sendMessage, loading, error };
 
-    return {
-        messages,
-        sendMessage,
-    };
 };
 
 export default useChat;

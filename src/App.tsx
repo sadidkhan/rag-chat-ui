@@ -4,27 +4,14 @@ import ChatWindow from './components/ChatWindow';
 import Sidebar from './components/Sidebar';
 import RightSidebar from './components/RightSidebar';
 import RightSidebarToggle from './components/RightSidebarToggle';
+import { useUploader } from './hooks/useUploader';
 
 const App: React.FC = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const { selectedFiles, uploadedFiles, busy, error, handleFileSelect, handleUpload } = useUploader();
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      setSelectedFiles(Array.from(files));
-    }
-  };
-
-  const handleUpload = () => {
-    if (selectedFiles.length > 0) {
-      setUploadedFiles((prev) => [...prev, ...selectedFiles]);
-      setSelectedFiles([]);
-    }
-  };
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-200 relative">
@@ -35,6 +22,8 @@ const App: React.FC = () => {
           setSidebarOpen={setSidebarOpen}
           uploadedFiles={uploadedFiles}
           selectedFiles={selectedFiles}
+          busy={busy}
+          error={error}
           handleFileSelect={handleFileSelect}
           handleUpload={handleUpload}
         />
